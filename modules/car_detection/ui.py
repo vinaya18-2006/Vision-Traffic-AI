@@ -192,8 +192,8 @@ def render_task1() -> None:
         )
 
     _render_kpis(result)
-    overview_tab, details_tab, analytics_tab = st.tabs(
-        ["Overview", "Detection details", "Analytics"]
+    overview_tab, details_tab, analytics_tab, technical_tab = st.tabs(
+        ["Overview", "Detection Details", "Analytics", "Technical Info"]
     )
     with overview_tab:
         _render_detection_view(
@@ -206,16 +206,16 @@ def render_task1() -> None:
         _render_detection_details(result)
     with analytics_tab:
         _render_analytics(result)
-    with st.expander("Processing information", icon=":material/analytics:"):
+    with technical_tab:
         _render_processing_information(result)
 
 
 def _render_product_header() -> None:
-    model_status = "YOLO11n &bull; Online"
-    status_dot = "vt-online-dot"
+    model_status = "SYSTEM ONLINE"
+    status_dot = "vt-status-dot"
     if not default_model_path().is_file():
-        model_status = "YOLO11n &bull; Weights required"
-        status_dot = "vt-offline-dot"
+        model_status = "WEIGHTS REQUIRED"
+        status_dot = "vt-status-dot"
     st.markdown(
         """
         <div class="vt-header">
@@ -226,7 +226,8 @@ def _render_product_header() -> None:
           </div>
           <div class="vt-status-group">
             <span class="vt-status"><span class="STATUS_DOT"></span>MODEL_STATUS</span>
-            <span class="vt-device">Processing device&nbsp; <strong>CPU</strong></span>
+            <span class="vt-device">Model&nbsp; <strong>YOLO11n</strong></span>
+            <span class="vt-device">Device&nbsp; <strong>CPU</strong></span>
           </div>
         </div>
         <div class="vt-task-label">Task 1&nbsp; &bull;&nbsp; Car Colour Detection</div>
@@ -239,43 +240,140 @@ def _render_dashboard_styles() -> None:
     st.markdown(
         """
         <style>
-        .block-container {padding-top: 1.35rem; padding-bottom: 2.25rem; max-width: 1440px;}
-        [data-testid="stSidebar"] {border-right: 1px solid var(--border-color);}
+        :root {
+          --vt-bg: #07121a;
+          --vt-surface: rgba(16, 27, 38, 0.9);
+          --vt-surface-strong: rgba(18, 33, 47, 0.95);
+          --vt-surface-soft: rgba(13, 25, 36, 0.72);
+          --vt-border: rgba(148, 163, 184, 0.22);
+          --vt-primary: #5dd7ff;
+          --vt-primary-strong: #7ef0ff;
+          --vt-accent: #7de2a1;
+          --vt-warning: #f5b642;
+          --vt-danger: #ff6f7d;
+          --vt-text: #edf6ff;
+          --vt-muted: rgba(237, 246, 255, 0.72);
+          --vt-shadow: 0 16px 32px rgba(7, 18, 26, 0.38);
+        }
+        .block-container {
+          padding-top: 1.35rem !important;
+          padding-bottom: 2.25rem !important;
+          max-width: 1440px !important;
+        }
+        [data-testid="stSidebar"] {
+          background: linear-gradient(180deg, rgba(8, 17, 25, 0.94), rgba(11, 21, 31, 0.98));
+          border-right: 1px solid var(--vt-border);
+        }
         .vt-header {
           display:flex; align-items:center; justify-content:space-between; gap:1.5rem;
-          padding:1.15rem 1.45rem; border:1px solid var(--border-color);
-          border-radius:18px; background:linear-gradient(115deg,
-          color-mix(in srgb, var(--secondary-background-color) 88%, #167d91 12%),
-          var(--secondary-background-color)); margin-bottom:.75rem;
+          padding:1.25rem 1.5rem; border:1px solid var(--vt-border);
+          border-radius:22px; background:linear-gradient(135deg,
+            rgba(13, 37, 53, 0.96), rgba(11, 24, 34, 0.86));
+          box-shadow: var(--vt-shadow);
+          margin-bottom:.85rem;
+          position:relative; overflow:hidden;
         }
-        .vt-eyebrow {font-size:.72rem; font-weight:700; letter-spacing:.14em;
-          color:var(--primary-color); margin-bottom:.32rem;}
-        .vt-header h1 {font-size:2rem; line-height:1.12; margin:0; color:var(--text-color);}
-        .vt-header p {margin:.3rem 0 0; color:var(--text-color); opacity:.72; font-size:1rem;}
-        .vt-status-group {display:flex; flex-direction:column; align-items:flex-end; gap:.6rem;}
-        .vt-status {display:inline-flex; align-items:center; gap:.45rem; border-radius:999px;
-          padding:.38rem .72rem; border:1px solid color-mix(in srgb, #16855b 42%, var(--border-color));
-          color:var(--text-color); background:color-mix(in srgb, #16855b 10%, var(--background-color));
-          font-size:.84rem; font-weight:650;}
-        .vt-online-dot {width:.48rem; height:.48rem; border-radius:50%; background:#169b69;}
-        .vt-offline-dot {width:.48rem; height:.48rem; border-radius:50%; background:#bf8700;}
-        .vt-device {font-size:.84rem; color:var(--text-color); opacity:.75;}
-        .vt-task-label {display:inline-block; margin:.05rem 0 1.05rem; padding:.3rem .62rem;
-          border-radius:7px; background:var(--secondary-background-color);
-          border:1px solid var(--border-color); font-size:.82rem; font-weight:600;}
-        .vt-section-caption {color:var(--text-color); opacity:.7; font-size:.9rem;}
-        .vt-banner {padding:.6rem .85rem; border-radius:9px;
-          border:1px solid color-mix(in srgb, #2f81f7 32%, var(--border-color));
-          background:color-mix(in srgb, #2f81f7 8%, var(--background-color));
-          font-size:.9rem; margin:.45rem 0 .85rem;}
-        .vt-empty {padding:2rem 1.25rem; border:1px dashed var(--border-color);
-          border-radius:16px; text-align:center; background:var(--secondary-background-color);}
-        .vt-empty h3 {margin:.15rem 0 .45rem; font-size:1.2rem;}
-        .vt-empty p {margin:0; opacity:.72;}
+        .vt-header::before {
+          content:""; position:absolute; inset:-25% auto auto -12%; width:240px; height:240px;
+          background: radial-gradient(circle, rgba(93, 215, 255, 0.34), transparent 60%);
+          pointer-events:none;
+        }
+        .vt-eyebrow {
+          font-size:.72rem; font-weight:700; letter-spacing:.16em; color:var(--vt-primary);
+          margin-bottom:.36rem; text-transform:uppercase;
+        }
+        .vt-header h1 {
+          font-size:2.15rem; line-height:1.06; margin:0; color:var(--vt-text);
+          font-weight:700; letter-spacing:-0.03em;
+        }
+        .vt-header p {margin:.3rem 0 0; color:var(--vt-muted); font-size:1rem;}
+        .vt-status-group {display:flex; flex-direction:column; align-items:flex-end; gap:.6rem; z-index:1;}
+        .vt-status {
+          display:inline-flex; align-items:center; gap:.45rem; border-radius:999px;
+          padding:.42rem .8rem; border:1px solid rgba(108, 255, 180, 0.35);
+          color:var(--vt-text); background:rgba(17, 63, 48, 0.42);
+          font-size:.84rem; font-weight:650;
+        }
+        .vt-status-dot {
+          width:.58rem; height:.58rem; border-radius:50%; background:#46d39a; box-shadow:0 0 0 0 rgba(70,211,154,.45);
+          animation: vt-pulse 2.2s infinite ease-out;
+        }
+        @keyframes vt-pulse {
+          0% { box-shadow: 0 0 0 0 rgba(70,211,154,.45); }
+          70% { box-shadow: 0 0 0 10px rgba(70,211,154,0); }
+          100% { box-shadow: 0 0 0 0 rgba(70,211,154,0); }
+        }
+        .vt-device {font-size:.84rem; color:var(--vt-muted);} .vt-device strong {color:var(--vt-text);}
+        .vt-task-label {
+          display:inline-block; margin:.1rem 0 1.05rem; padding:.4rem .7rem; border-radius:999px;
+          background:rgba(15, 31, 41, 0.88); border:1px solid var(--vt-border); font-size:.82rem; font-weight:700;
+          color:var(--vt-text); letter-spacing:.02em;
+        }
+        .vt-section-caption {color:var(--vt-muted); font-size:.9rem;} .vt-banner {
+          padding:.72rem .9rem; border-radius:12px; border:1px solid rgba(93, 215, 255, 0.2);
+          background:rgba(18, 51, 67, 0.55); font-size:.9rem; margin:.45rem 0 .85rem; color:var(--vt-text);
+          box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+        }
+        .vt-empty {
+          padding:2rem 1.25rem; border:1px dashed rgba(148,163,184,0.35); border-radius:20px; text-align:center;
+          background:linear-gradient(180deg, rgba(15, 27, 35, 0.72), rgba(12, 22, 30, 0.92));
+          box-shadow: var(--vt-shadow);
+        }
+        .vt-empty h3 {margin:.15rem 0 .5rem; font-size:1.35rem; color:var(--vt-text);}
+        .vt-empty p {margin:0; opacity:.72; color:var(--vt-muted);}
+        .vt-kpi-card {
+          background:linear-gradient(180deg, rgba(16, 28, 38, 0.9), rgba(12, 23, 32, 0.92));
+          border:1px solid var(--vt-border); border-radius:16px; padding:1rem .9rem 0.9rem; min-height:120px;
+          box-shadow: var(--vt-shadow); transition:transform .2s ease, border-color .2s ease, box-shadow .2s ease;
+          animation: vt-fade-in .45s ease both;
+        }
+        .vt-kpi-card:hover {
+          transform: translateY(-2px); border-color: rgba(93, 215, 255, 0.44);
+          box-shadow: 0 18px 32px rgba(7, 18, 26, 0.48);
+        }
+        .vt-kpi-label {
+          font-size:.68rem; line-height:1.2; letter-spacing:.12em; text-transform:uppercase; color:var(--vt-muted);
+          margin-bottom:.55rem; font-weight:700;
+        }
+        .vt-kpi-value {
+          font-size:1.8rem; font-weight:700; line-height:1.1; color:var(--vt-text); letter-spacing:-0.04em;
+          margin-bottom:.2rem;
+        }
+        .vt-kpi-context {
+          font-size:.78rem; color:var(--vt-muted); line-height:1.35;
+        }
+        .vt-panel {
+          background:linear-gradient(180deg, rgba(16, 28, 38, 0.9), rgba(12, 22, 31, 0.95));
+          border:1px solid var(--vt-border); border-radius:18px; padding:1rem; box-shadow: var(--vt-shadow);
+          margin-bottom:1rem; animation: vt-fade-in .5s ease both;
+        }
+        .vt-panel h3 {margin:0 0 .8rem; color:var(--vt-text); font-size:1.05rem; font-weight:700;}
+        .vt-legend-item {display:inline-flex; align-items:center; gap:.55rem; margin-right:1rem; color:var(--vt-muted); font-size:.82rem;}
+        .vt-swatch {width:.72rem; height:.72rem; border-radius:6px; display:inline-block;}
+        .vt-ghost-button {
+          display:inline-flex; align-items:center; justify-content:center; border-radius:12px; padding:.62rem 1rem;
+          background:linear-gradient(135deg, rgba(17, 87, 113, 0.85), rgba(14, 62, 78, 0.9));
+          border:1px solid rgba(93, 215, 255, 0.35); color:var(--vt-text); font-weight:600;
+          transition: transform .18s ease, box-shadow .18s ease;
+        }
+        .vt-ghost-button:hover {transform: translateY(-1px); box-shadow:0 10px 18px rgba(18,70,90,.35);}
+        .vt-metric-strip {display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:.9rem; margin:0 0 1rem;}
+        .vt-stats-grid {display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:.8rem; margin-top: .75rem;}
+        .vt-stat-box {padding:.8rem .9rem; border-radius:12px; background:rgba(10,22,33,.75); border:1px solid var(--vt-border);}
+        .vt-stat-box .label {font-size:.7rem; text-transform:uppercase; letter-spacing:.1em; color:var(--vt-muted);}
+        .vt-stat-box .value {font-size:1.15rem; font-weight:700; margin-top:.25rem; color:var(--vt-text);}
+        .vt-empty-graphic {
+          width:110px; height:110px; margin:0 auto 1rem; display:block; opacity:.8;
+          filter: drop-shadow(0 12px 18px rgba(93, 215, 255, 0.18));
+        }
+        @keyframes vt-fade-in { from { opacity:0; transform: translateY(8px);} to { opacity:1; transform:none;} }
         @media (max-width: 720px) {
           .vt-header {align-items:flex-start; flex-direction:column; padding:1rem;}
-          .vt-status-group {align-items:flex-start; flex-direction:row; flex-wrap:wrap;}
-          .vt-header h1 {font-size:1.65rem;}
+          .vt-status-group {align-items:flex-start; width:100%; flex-direction:row; flex-wrap:wrap;}
+          .vt-header h1 {font-size:1.8rem;}
+        }
+        @media (prefers-reduced-motion: reduce) {
+          .vt-status-dot, .vt-kpi-card, .vt-panel, .vt-ghost-button {animation:none !important; transition:none !important;}
         }
         </style>
         """,
@@ -371,16 +469,29 @@ def _render_sidebar_controls() -> tuple[str, _UploadedMedia | None, str, float, 
 def _render_empty_state(mode: str, uploaded_file: _UploadedMedia | None) -> None:
     if st.session_state.get(_ERROR_KEY):
         return
+    st.markdown(
+        """
+        <div class="vt-empty">
+          <svg class="vt-empty-graphic" viewBox="0 0 160 160" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="panelGlow" x1="0" x2="1" y1="0" y2="1">
+                <stop offset="0%" stop-color="#5dd7ff" stop-opacity="0.85"/>
+                <stop offset="100%" stop-color="#7de2a1" stop-opacity="0.85"/>
+              </linearGradient>
+            </defs>
+            <rect x="18" y="18" width="124" height="124" rx="26" fill="rgba(93, 215, 255, 0.08)" stroke="rgba(93, 215, 255, 0.4)"/>
+            <path d="M42 90 L69 58 L83 74 L112 46 L118 90 Z" fill="url(#panelGlow)" opacity="0.85"/>
+            <circle cx="52" cy="62" r="8" fill="#5dd7ff" opacity="0.82"/>
+            <rect x="36" y="98" width="88" height="14" rx="7" fill="rgba(125, 226, 161, 0.2)"/>
+            <path d="M82 27 L86 43 L102 43 L89 54 L94 72 L82 61 L70 72 L75 54 L62 43 L78 43 Z" fill="#f2f8ff" opacity="0.72"/>
+          </svg>
+          <h3>VisionTraffic AI</h3>
+          <p>Upload traffic media to begin intelligent detection.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
     if uploaded_file is None:
-        st.markdown(
-            """
-            <div class="vt-empty">
-              <h3>Ready to analyze</h3>
-              <p>Select an image or video in the control panel, then run Task 1 inference.</p>
-            </div>
-            """,
-            unsafe_allow_html=True,
-        )
         return
     if mode == "Image":
         try:
@@ -423,31 +534,29 @@ def _render_kpis(result: TaskResult) -> None:
     confidences = [detection.confidence for detection in (*cars, *people)]
     mean_confidence = float(np.mean(confidences)) if confidences else None
     still_image = isinstance(result, ImageInferenceResult)
-    car_metric_label = "Total cars" if still_image else "Car frame detections"
-    blue_metric_label = "Blue cars" if still_image else "Blue car frame detections"
-    other_metric_label = (
-        "Other known-colour cars" if still_image else "Other known-colour frame detections"
-    )
-    people_metric_label = "People detected" if still_image else "Person frame detections"
-    with st.container(horizontal=True):
-        st.metric(car_metric_label, len(cars), border=True)
-        st.metric(blue_metric_label, blue_count, border=True)
-        st.metric(other_metric_label, other_known_count, border=True)
-        st.metric(people_metric_label, len(people), border=True)
-        st.metric(
-            "Average detection confidence",
-            f"{mean_confidence:.1%}" if mean_confidence is not None else "—",
-            border=True,
-        )
-        st.metric(
-            "Processing FPS",
-            f"{result.processing_fps:.2f}" if isinstance(result, VideoInferenceResult) else "—",
-            border=True,
-        )
+    metrics = [
+        ("Total cars", str(len(cars)), "Retained detections"),
+        ("Blue cars", str(blue_count), "Blue body colour"),
+        ("Other colour cars", str(other_known_count), "Known non-blue"),
+        ("People", str(len(people)), "Retained detections"),
+        ("Avg confidence", f"{mean_confidence:.1%}" if mean_confidence is not None else "—", "Detector score"),
+        ("Processing FPS", f"{result.processing_fps:.2f}" if isinstance(result, VideoInferenceResult) else "—", "Measured throughput"),
+    ]
+    columns = st.columns(6)
+    for column, (label, value, context) in zip(columns, metrics):
+        with column:
+            st.markdown(
+                f'<div class="vt-kpi-card">'
+                f'<div class="vt-kpi-label">{label}</div>'
+                f'<div class="vt-kpi-value">{value}</div>'
+                f'<div class="vt-kpi-context">{context}</div>'
+                f'</div>',
+                unsafe_allow_html=True,
+            )
     if isinstance(result, VideoInferenceResult):
         st.markdown(
-            '<div class="vt-banner"><strong>Frame-level counts:</strong> Video totals are '
-            "frame-level detections. Unique vehicle/person counts require object tracking.</div>",
+            '<div class="vt-banner"><strong>Video totals are frame-level detections.</strong> '
+            "Unique vehicle/person counts require object tracking.</div>",
             unsafe_allow_html=True,
         )
     else:
@@ -463,7 +572,7 @@ def _render_detection_view(
     source_name: str,
     video_bytes: bytes | None,
 ) -> None:
-    st.subheader("Detection preview")
+    st.markdown('<div class="vt-panel"><h3>Detection preview</h3></div>', unsafe_allow_html=True)
     if isinstance(result, ImageInferenceResult):
         if source_bytes is None:
             st.warning("The source image is no longer available in this session.")
@@ -478,13 +587,22 @@ def _render_detection_view(
                 width="stretch",
             )
         with annotated:
-            st.markdown("**YOLO11n annotated result**")
+            st.markdown("**AI detection**")
             st.image(
                 result.annotated_image,
                 channels="BGR",
                 alt="Image annotated with car colours and person detections",
                 width="stretch",
             )
+        st.markdown(
+            '<div class="vt-panel">'
+            '<div class="vt-legend-item"><span class="vt-swatch" style="background:#ff3b30"></span>Blue car</div>'
+            '<div class="vt-legend-item"><span class="vt-swatch" style="background:#1d9bf0"></span>Other known colour</div>'
+            '<div class="vt-legend-item"><span class="vt-swatch" style="background:#8ea0ad"></span>Unknown colour</div>'
+            '<div class="vt-legend-item"><span class="vt-swatch" style="background:#6ee7b7"></span>Person</div>'
+            '</div>',
+            unsafe_allow_html=True,
+        )
         encoded, image_buffer = cv2.imencode(".png", result.annotated_image)
         if not encoded:
             st.error("The annotated image could not be encoded for download.")
@@ -505,34 +623,24 @@ def _render_detection_view(
         return
 
     if video_bytes is not None:
-        st.markdown("**Original video**")
-        st.video(
-            source_bytes or b"",
-            format=_video_mime_type(Path(source_name).suffix),
-            alt="Original uploaded video",
-        )
-        first_frame, annotated_frame = st.columns(2)
-        with first_frame:
-            st.markdown("**Original first frame**")
-            st.image(
-                result.original_preview_frame,
-                channels="BGR",
-                alt="Original first frame of uploaded video",
-                width="stretch",
-            )
-        with annotated_frame:
-            st.markdown("**Annotated first frame**")
-            st.image(
-                result.annotated_preview_frame,
-                channels="BGR",
-                alt="YOLO11n annotated first frame",
-                width="stretch",
-            )
         st.markdown("**Annotated video**")
         st.video(
             video_bytes,
             format=_video_mime_type(Path(source_name).suffix),
             alt="YOLO11n-annotated video",
+        )
+        st.markdown(
+            '<div class="vt-panel">'
+            '<div class="vt-stats-grid">'
+            f'<div class="vt-stat-box"><div class="label">Frames Processed</div><div class="value">{result.frame_count:,}</div></div>'
+            f'<div class="vt-stat-box"><div class="label">Source FPS</div><div class="value">{result.source_fps if result.source_fps is not None else "Unknown"}</div></div>'
+            f'<div class="vt-stat-box"><div class="label">Output FPS</div><div class="value">{result.output_fps:.2f}</div></div>'
+            f'<div class="vt-stat-box"><div class="label">Processing FPS</div><div class="value">{result.processing_fps:.2f}</div></div>'
+            f'<div class="vt-stat-box"><div class="label">Peak Cars / Frame</div><div class="value">{max(frame.car_count for frame in result.frames) if result.frames else 0}</div></div>'
+            f'<div class="vt-stat-box"><div class="label">Peak People / Frame</div><div class="value">{max(frame.person_count for frame in result.frames) if result.frames else 0}</div></div>'
+            '</div>'
+            '</div>',
+            unsafe_allow_html=True,
         )
         st.download_button(
             "Download annotated video",
@@ -798,12 +906,12 @@ def _render_processing_information(result: TaskResult) -> None:
     detector_metadata = result.inference_metadata
     if isinstance(result, VideoInferenceResult):
         metrics = [
-            ("Source FPS", f"{result.source_fps:.2f}" if result.source_fps else "Unknown"),
+            ("Source FPS", f"{result.source_fps:.2f}" if result.source_fps is not None else "Unknown"),
             ("Output FPS", f"{result.output_fps:.2f}"),
             ("Processing FPS", f"{result.processing_fps:.2f}"),
             ("Frames processed", f"{result.frame_count:,}"),
             (
-                "Processing time",
+                "Processing duration",
                 f"{result.frame_count / result.processing_fps:.2f} s"
                 if result.processing_fps > 0
                 else "—",
@@ -816,10 +924,11 @@ def _render_processing_information(result: TaskResult) -> None:
             ("Processing FPS", "—"),
             ("Frames processed", "1 image"),
             (
-                "Processing time",
+                "Processing duration",
                 f"{float(detector_metadata.get('inference_duration_ms', 0.0)) / 1000:.2f} s",
             ),
         ]
+    st.markdown('<div class="vt-panel"><h3>Runtime summary</h3></div>', unsafe_allow_html=True)
     columns = st.columns(5)
     for column, (label, value) in zip(columns, metrics):
         with column:
