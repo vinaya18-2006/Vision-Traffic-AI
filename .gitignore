@@ -6,3 +6,5 @@ __pycache__/
 .ipynb_checkpoints/
 /yolo11n.pt
 /yolo_test.jpg
+/models/voice_emotion/
+/models/sign_language/

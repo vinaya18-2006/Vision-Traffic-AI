@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "model_id": "AmimulBmeIU/asl-alphabet-classifier",
+  "revision": "9e5cde38db66ae889322aeea3c547848676fa96e",
+  "filename": "model.keras",
+  "size_bytes": 245970,
+  "sha256": "9A73CD144A41C2CA92BD4D07ECEC2FE32F5F4DDE5E28C8BCC0B0ADA013502F11",
+  "declared_license": "MIT (publisher-declared; review underlying training data terms separately)",
+  "architecture": "Keras classifier over flattened x,y,z coordinates for 21 MediaPipe hand landmarks",
+  "model_input": [21, 3],
+  "vocabulary_file": "vocabulary.json",
+  "training_dataset": null,
+  "training_data_provenance": "Not identified in the publisher model card",
+  "reported_validation_accuracy": 0.9415,
+  "reported_metric_status": "Publisher claim; dataset, signer split, and evaluation protocol are not documented or independently verified",
+  "capabilities": {
+    "static_image_landmarks": true,
+    "dynamic_signs": false,
+    "video_temporal_inference": false,
+    "out_of_vocabulary_training": false
+  }
+}

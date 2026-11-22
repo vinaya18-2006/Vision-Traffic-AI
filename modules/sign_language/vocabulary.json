@@ -1,0 +1,12 @@
+{
+  "schema_version": "1.0.0",
+  "sign_language": "American Sign Language (ASL)",
+  "recognition_scope": "static fingerspelled alphabet letters",
+  "labels": [
+    "A", "B", "C", "D", "E", "F", "G", "H", "I",
+    "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T",
+    "U", "V", "W", "X", "Y"
+  ],
+  "excluded_dynamic_letters": ["J", "Z"],
+  "translation_scope": "No words, sentences, grammar, or continuous translation"
+}

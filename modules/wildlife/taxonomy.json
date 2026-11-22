@@ -1,0 +1,47 @@
+{
+  "version": "1.0.0",
+  "source": "Species labels and class coverage: COCO 2017 object categories; diet categories are documented below.",
+  "animal_classes": [
+    "bird",
+    "cat",
+    "dog",
+    "horse",
+    "sheep",
+    "cow",
+    "elephant",
+    "bear",
+    "zebra",
+    "giraffe"
+  ],
+  "classifications": {
+    "bird": "unknown",
+    "cat": "carnivore",
+    "dog": "unknown",
+    "horse": "non_carnivore",
+    "sheep": "non_carnivore",
+    "cow": "non_carnivore",
+    "elephant": "non_carnivore",
+    "bear": "unknown",
+    "zebra": "non_carnivore",
+    "giraffe": "non_carnivore"
+  },
+  "notes": {
+    "bird": "Broad COCO class spanning many species and diets; left unclassified.",
+    "dog": "Domestic dogs are dietary generalists; the broad label does not justify a strict diet assignment.",
+    "bear": "The COCO label does not identify a bear species; diets vary substantially among species."
+  },
+  "references": [
+    {
+      "title": "COCO dataset and object categories",
+      "url": "https://cocodataset.org/#home"
+    },
+    {
+      "title": "Carnivore",
+      "url": "https://www.britannica.com/animal/carnivore"
+    },
+    {
+      "title": "Cats",
+      "url": "https://www.britannica.com/animal/cat"
+    }
+  ]
+}
