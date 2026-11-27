@@ -1,0 +1,6 @@
+{
+  "name": "RoadSight Intelligence",
+  "description": "RoadSight Intelligence integrated multi-module ML application for traffic, wildlife, voice emotion, person analysis, sign language, and drowsiness detection.",
+  "requestFramePermissions": ["camera", "microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
